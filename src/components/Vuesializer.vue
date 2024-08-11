@@ -1,6 +1,6 @@
 <template>
-  <div ref="wrapper" class="wrapper">
-    <button class="play-btn" @click="play">
+  <div ref="wrapper" class="Vuesializer" :style="{ '--height': height }">
+    <button class="Vuesializer__play-btn" @click="play">
       <span v-if="isPaused" class="material-icons">play_arrow</span>
       <span v-else class="material-icons">pause</span>
     </button>
@@ -17,6 +17,7 @@ defineOptions({ name: "AudioVisualizer" });
 const props = defineProps({
   src: { type: String, required: true },
   height: { type: String, default: "100%" },
+  colors: { type: Array, default: () => [] },
 });
 
 const audioElement = ref(null);
@@ -31,6 +32,7 @@ const canvasWidth = ref(0);
 const canvasHeight = ref(0);
 const maxBarHeight = ref(0);
 const isPaused = ref(true);
+const colorsRef = ref(props.colors);
 
 const createSound = () => {
   const sound = document.createElement("audio");
@@ -122,23 +124,34 @@ function renderFrame() {
     canvasContext.save();
     canvasContext.clip();
 
-    // Create and fill the gradient
-    const gradient = canvasContext.createRadialGradient(
-      centerX,
-      centerY,
-      0,
-      centerX,
-      centerY,
-      radius.value + maxWaveHeight
-    );
     // rgba(0, 191, 179, 0.0) Green
     // rgba(0, 166, 237, 0.0) Blue
-    gradient.addColorStop(0, "rgba(0, 191, 179, 0.0)");
-    gradient.addColorStop(1, "rgba(0, 191, 179, 0.15)");
+    if (!colorsRef.value.length) {
+      canvasContext.fillStyle = "rgb(0, 191, 179)";
+      canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
+    } else if (colorsRef.value.length === 1) {
+      canvasContext.fillStyle = colorsRef.value[0];
+      canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
+    } else {
+      // Create and fill the gradient
+      const gradient = canvasContext.createRadialGradient(
+        centerX,
+        centerY,
+        0,
+        centerX,
+        centerY,
+        radius.value + maxWaveHeight
+      );
 
-    canvasContext.fillStyle = gradient;
-    canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
+      const gradientStep = 1 / colorsRef.value.length;
+      colorsRef.value.forEach((color, index) => {
+        gradient.addColorStop(index * gradientStep, color);
+      });
 
+      canvasContext.fillStyle = gradient;
+      canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
+    }
+    // TODO: Add a prop for stroke color
     // Restore context to draw the wave stroke
     canvasContext.restore();
     canvasContext.strokeStyle = "rgba(0, 191, 179, 1)"; // Ensure the wave outline is visible
@@ -227,28 +240,38 @@ onMounted(() => {
 <style lang="sass" scoped>
 @import 'material-icons/iconfont/material-icons.css'
 
-.wrapper
+.Vuesializer
+  --height: 100%
+  --btn-bg: rgb(255, 255, 255)
+  --btn-color: rgb(127, 127, 127)
+  --btn-shadow: 0 3px 10px rgba(127,127,127,0.25), 0 7px 20px rgba(127,127,127,0.1)
+  --btn-width: 60px
+  --btn-height: 60px
+  --btn-radius: 50%
+  --btn-border: none
+  --btn-icon-size: 34px
   width: 100%
-  height: v-bind(height)
+  height: var(--height)
   position: relative
-.play-btn
-  min-width: 60px
-  min-height: 60px
-  max-width: 60px
-  max-height: 60px
-  padding: 0
-  border-radius: 50%
-  border: none
-  background-color: rgba(209, 209, 209, 0.25)
-  mix-blend-mode: luminosity
-  position: absolute
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
-  cursor: pointer
-  box-shadow: 0 3px 25px rgba(127,127,127,0.25), 0 7px 10px rgba(127,127,127,0.1)
-  span
-    font-size: 34px
-    mix-blend-mode: color-dodge
-    color: rgb(127, 127, 127)
+  &__play-btn
+    min-width: var(--btn-width)
+    max-width: var(--btn-width)
+    min-height: var(--btn-height)
+    max-height: var(--btn-height)
+    padding: 0
+    border-radius: var(--btn-radius)
+    border: var(--btn-border)
+    background-color: var(--btn-bg)
+    // mix-blend-mode: luminosity
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    cursor: pointer
+    box-shadow: var(--btn-shadow)
+    outline: none
+    span
+      font-size: var(--btn-icon-size)
+      // mix-blend-mode: color-dodge
+      color: var(--btn-color)
 </style>
