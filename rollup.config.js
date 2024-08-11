@@ -5,6 +5,7 @@ import { terser } from "rollup-plugin-terser";
 import babel from "@rollup/plugin-babel";
 import postcss from "rollup-plugin-postcss";
 import postcssImport from "postcss-import";
+import postcssUrl from "postcss-url";
 
 export default {
   input: "src/components/Vuesializer.vue",
@@ -29,9 +30,18 @@ export default {
     vue({
       css: true,
       compileTemplate: true,
+      scoped: true,
     }),
     postcss({
-      plugins: [postcssImport()],
+      plugins: [
+        postcssImport(),
+        postcssUrl({
+          url: "inline", // Inline assets as base64 URIs
+          // OR
+          // url: "copy", // Copy files to the output directory and adjust the URLs
+        }),
+      ],
+
       extract: false, // Extract CSS into a separate file
     }),
     babel({
