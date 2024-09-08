@@ -4,7 +4,6 @@
       <span v-if="isPaused" class="material-icons">play_arrow</span>
       <span v-else class="material-icons">pause</span>
     </button>
-    <!-- <q-btn round color="primary" icon="play_arrow" @click="play" /> -->
     <div ref="audioContainer"></div>
     <canvas ref="canvas"></canvas>
   </div>

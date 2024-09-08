@@ -1,8 +1,7 @@
 {
   "name": "vuesializer",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "An audio visualizer component built using Vue",
-  "private": true,
   "main": "dist/vuesializer.cjs.js",
   "module": "dist/vuesializer.esm.js",
   "unpkg": "dist/vuesializer.umd.js",
