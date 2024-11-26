@@ -2,6 +2,8 @@ class Vuesializer {
   src = null;
   height = null;
   colors = [];
+  strokeColor = "";
+  strokeWidth = 0;
   audioContext = null;
   audioContextObj = null;
   analyserFftSize = 8192;
@@ -17,6 +19,8 @@ class Vuesializer {
     this.src = props.src;
     this.height = props.height;
     this.colors = props.colors;
+    this.strokeColor = props.strokeColor;
+    this.strokeWidth = props.strokeWidth;
   }
 
   createAudioElement() {
@@ -172,8 +176,6 @@ class Vuesializer {
     canvasContext.save();
     canvasContext.clip();
 
-    // rgba(0, 191, 179, 0.0) Green
-    // rgba(0, 166, 237, 0.0) Blue
     if (!this.colors.length) {
       canvasContext.fillStyle = "rgb(0, 191, 179)";
       canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
@@ -199,10 +201,10 @@ class Vuesializer {
       canvasContext.fillStyle = gradient;
       canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
     }
-    // TODO: Add a prop for stroke color
     // Restore context to draw the wave stroke
     canvasContext.restore();
-    canvasContext.strokeStyle = "rgba(0, 191, 179, 1)"; // Ensure the wave outline is visible
+    canvasContext.lineWidth = this.strokeWidth;
+    canvasContext.strokeStyle = this.strokeColor; // Ensure the wave outline is visible
     canvasContext.stroke();
   }
 }

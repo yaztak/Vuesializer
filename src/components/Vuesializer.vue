@@ -18,6 +18,8 @@ const props = defineProps({
   src: { type: String, required: true },
   height: { type: String, default: "100%" },
   colors: { type: Array, default: () => [] },
+  strokeColor: { type: String, default: "rgba(0, 191, 179, 1)" },
+  strokeWidth: { type: Number, default: 1 },
 });
 
 const audioElement = ref(null);
