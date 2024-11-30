@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page__wrapper">
       <Vuesializer
-        src="/audio.mp3"
+        src="/Vuesializer/audio.mp3"
         :colors="['rgba(0, 191, 179, 0.0)', 'rgba(0, 191, 179, 0.15)']"
         class="Vuesializer"
       />
