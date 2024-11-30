@@ -1,6 +1,6 @@
 # Vuesializer
 
-Vuesializer is a Vue 3 package for creating sleek and customizable visualizations for your media content. This lightweight component makes it easy to integrate beautiful, responsive designs into your projects.
+Vuesializer is a Vue 3 package for creating sleek and customizable visualizations for your media content. This lightweight component makes it easy to integrate beautiful, responsive designs into your projects. You can see it in action [Here](https://yaztak.github.io/Vuesializer/)
 
 ## Features
 
