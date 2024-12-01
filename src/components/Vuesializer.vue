@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import Vuesializer from "@/core/Vuesializer";
+import Vuesializer from "../core/Vuesializer";
 import { onMounted, ref } from "vue";
 
 defineOptions({ name: "AudioVisualizer" });

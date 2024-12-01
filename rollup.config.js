@@ -46,10 +46,11 @@ export default {
     }),
     babel({
       exclude: "node_modules/**",
-      babelHelpers: "bundled",
+      babelHelpers: "runtime",
       presets: ["@babel/preset-env"],
+      plugins: ["@babel/plugin-transform-runtime"],
     }),
     terser(),
   ],
-  external: ["vue"],
+  external: ["vue", "@babel/runtime"],
 };
